@@ -30,8 +30,8 @@ const shown = limit ? reviews.slice(0, limit) : reviews;
     )}
     <p class="reviews__lead">Homeowners across the Denver Metro trust us with their garage doors. See what they have to say, or share your own experience.</p>
     <div class="btn-row reviews__btns">
-      <Button href={SITE.googleUrl} external>Read our Google reviews</Button>
-      <Button href={SITE.googleUrl} variant="outline" external>Leave a review</Button>
+      <Button href={SITE.googleReviewsUrl} external>Read all {SITE.reviewCount} Google reviews</Button>
+      <Button href={SITE.googleWriteReviewUrl} variant="outline" external>Leave a review</Button>
     </div>
   </div>
 </section>

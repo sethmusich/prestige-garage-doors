@@ -5,7 +5,7 @@ const { compact = false } = Astro.props;
 ---
 <a
   class:list={['rating', { 'rating--compact': compact }]}
-  href={SITE.googleUrl}
+  href={SITE.googleReviewsUrl}
   target="_blank"
   rel="noopener"
   aria-label={`Rated ${SITE.rating} out of 5 on Google from ${SITE.reviewCount} reviews`}

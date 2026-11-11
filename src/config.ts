@@ -9,6 +9,11 @@ export const SITE = {
   bookingUrl:
     'https://book.housecallpro.com/book/Prestige-Garage-Doors/6a27e72806254cf3ae84c4cd25c6b0b9?v2=true',
   googleUrl: 'https://share.google/bAm84qO8wrcA6NIo4',
+  // Opens the Google reviews panel (",1") / the write-a-review dialog (",3") for the business listing.
+  googleReviewsUrl:
+    'https://www.google.com/search?q=prestige+garage+door+co+denver#lrd=0x6586d7dbda52bdc1:0xb1fe3eb7e16b9b32,1,,,,',
+  googleWriteReviewUrl:
+    'https://www.google.com/search?q=prestige+garage+door+co+denver#lrd=0x6586d7dbda52bdc1:0xb1fe3eb7e16b9b32,3,,,,',
   rating: 4.9,
   reviewCount: 53,
   instagram: 'https://www.instagram.com/prestigegaragedoorsco/',

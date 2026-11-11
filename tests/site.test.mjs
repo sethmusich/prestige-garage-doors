@@ -149,3 +149,9 @@ test('thanks page', () => {
   assert.ok(visibleText(page).includes("We'll be in touch shortly"));
   assert.equal(page.querySelector('meta[name="robots"]').getAttribute('content'), 'noindex');
 });
+
+test('reviews render from data', () => {
+  assert.ok(loadPage('/reviews/').querySelectorAll('main figure.review').length >= 12, 'reviews page needs all reviews');
+  assert.equal(loadPage('/').querySelectorAll('main figure.review').length, 6, 'home shows 6 reviews');
+  assert.ok(visibleText(loadPage('/reviews/')).includes('Jake H.'));
+});
