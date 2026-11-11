@@ -1,7 +1,58 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import Button from '../../components/Button.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE } from '../../config';
+import { url } from '../../lib/url';
+import hero from '../../assets/photos/estimate-consult.jpg';
 ---
-<BaseLayout title="Contact Us" description="Contact Us — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="Contact Us" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Contact Us"
+  description="Questions about a garage door repair or new door? Contact Prestige Garage Doors — call (720) 295-3221 or send us a message. Serving Castle Rock to Longmont."
+>
+  <PageHero eyebrow="Contact" title="Get in Touch" subtitle="Questions about a repair or a project you want to get done? We'd love to hear from you." image={hero} />
+  <section class="section section--dark">
+    <div class="container contact">
+      <div class="contact__form">
+        <h2 class="contact__h">Send us a message</h2>
+        <p class="contact__intro">Interested in working together? Or have any questions about a repair or project you want to get done? Fill out some info and we will be in touch shortly. We can’t wait to hear from you!</p>
+        <ContactForm />
+      </div>
+      <aside class="contact__side">
+        <div class="contact__card">
+          <h3>Call us</h3>
+          <a class="contact__phone" href={SITE.phoneHref}><Icon name="phone" size={24} /> {SITE.phoneDisplay}</a>
+        </div>
+        <div class="contact__card">
+          <h3>Ready to schedule?</h3>
+          <p>Book a repair, tune-up or free estimate online.</p>
+          <Button href={SITE.bookingUrl} external>Book Online</Button>
+        </div>
+        <div class="contact__card">
+          <h3>Service area</h3>
+          <p>The {SITE.region}, from {SITE.area}. <a href={url('/service-areas/')}>See all areas</a></p>
+        </div>
+        <div class="contact__card">
+          <h3>Follow us</h3>
+          <a class="contact__social" href={SITE.instagram} target="_blank" rel="noopener"><Icon name="instagram" /> @prestigegaragedoorsco</a>
+        </div>
+      </aside>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .contact { display: grid; grid-template-columns: 1.5fr 1fr; gap: clamp(28px, 5vw, 56px); align-items: start; }
+  .contact__h { color: var(--gold); text-transform: uppercase; }
+  .contact__intro { color: var(--text-muted); margin-bottom: 24px; }
+  .contact__side { display: grid; gap: 16px; }
+  .contact__card { background: var(--navy-800); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; }
+  .contact__card h3 { color: var(--gold); font-size: 1.1rem; }
+  .contact__card p { color: var(--text-muted); }
+  .contact__phone { display: inline-flex; gap: 10px; align-items: center; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+  .contact__phone :global(svg), .contact__social :global(svg) { color: var(--gold); }
+  .contact__social { display: inline-flex; gap: 8px; align-items: center; color: var(--white); text-decoration: none; }
+  @media (max-width: 860px) { .contact { grid-template-columns: 1fr; } }
+</style>

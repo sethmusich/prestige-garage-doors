@@ -1,7 +1,49 @@
 ---
+// Housecall Pro sends no X-Frame-Options / frame-ancestors (checked 2026-11-11), so the
+// booking page is embedded. The "Book Online" button above it opens it in a new tab as a fallback.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Button from '../../components/Button.astro';
+import Icon from '../../components/Icon.astro';
+import { SITE } from '../../config';
+import hero from '../../assets/photos/truck-rail.jpg';
 ---
-<BaseLayout title="Book Now" description="Book Now — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="Book Now" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Book Online"
+  description="Book garage door repair, a tune-up or a free estimate with Prestige Garage Doors online, or call (720) 295-3221."
+>
+  <PageHero
+    eyebrow="Schedule service"
+    title="Book Your Appointment"
+    subtitle="Pick a time that works for you online, or give us a call."
+    image={hero}
+    ctas={false}
+  />
+  <section class="section section--dark">
+    <div class="container">
+      <div class="book__top">
+        <div>
+          <h2 class="book__h">Book online in minutes</h2>
+          <p>Please be as detailed as possible about your door when booking — some unique doors need specific parts that may have to be ordered.</p>
+        </div>
+        <div class="btn-row">
+          <Button href={SITE.bookingUrl} external><Icon name="calendar" /> Book Online</Button>
+          <Button href={SITE.phoneHref} variant="outline"><Icon name="phone" /> {SITE.phoneDisplay}</Button>
+        </div>
+      </div>
+      <div class="book__frame">
+        <iframe src={SITE.bookingUrl} title="Book an appointment with Prestige Garage Doors" loading="lazy"></iframe>
+      </div>
+      <p class="book__help">Booking form not loading? <a href={SITE.bookingUrl} target="_blank" rel="noopener">Open it in a new tab</a> or call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>.</p>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .book__top { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  .book__top p { max-width: 620px; margin: 0; color: var(--text-muted); }
+  .book__h { color: var(--gold); text-transform: uppercase; }
+  .book__frame { background: var(--white); border-radius: var(--radius); overflow: hidden; border: 2px solid var(--gold); }
+  .book__frame iframe { display: block; width: 100%; height: 900px; border: 0; }
+  .book__help { text-align: center; margin-top: 18px; color: var(--text-muted); }
+</style>

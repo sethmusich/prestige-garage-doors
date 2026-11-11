@@ -116,3 +116,36 @@ test('faq page has every question', async () => {
   const page = loadPage('/faq/');
   assert.ok(page.querySelectorAll('main details').length >= 8);
 });
+
+test('contact form posts without JS', () => {
+  const page = loadPage('/contact/');
+  const form = page.querySelector('main form');
+  assert.ok(form, 'form missing');
+  assert.equal(form.getAttribute('method'), 'POST');
+  assert.equal(form.getAttribute('action'), 'https://api.web3forms.com/submit');
+  for (const name of ['first_name', 'last_name', 'phone', 'email', 'city', 'message']) {
+    const el = form.querySelector(`[name="${name}"]`);
+    assert.ok(el, `${name} missing`);
+    assert.ok(el.hasAttribute('required'), `${name} not required`);
+  }
+  const opts = form.querySelectorAll('select[name="service"] option').map((o) => o.textContent.trim());
+  assert.deepEqual(opts, ['Tune-Up', 'Repair', 'Free Estimate on New Door', 'Other']);
+  assert.ok(form.querySelector('input[type="hidden"][name="access_key"]'), 'access key missing');
+  assert.equal(
+    form.querySelector('input[name="redirect"]').getAttribute('value'),
+    'https://sethmusich.github.io/prestige-garage-doors/thanks/',
+  );
+  assert.ok(form.querySelector('[name="botcheck"]'), 'honeypot missing');
+});
+
+test('book page links Housecall Pro', () => {
+  const page = loadPage('/book/');
+  assert.ok(page.querySelectorAll('a').some((a) => a.getAttribute('href') === BOOKING_URL), 'booking link missing');
+  assert.ok(page.querySelector('a[href="tel:+17202953221"]'), 'tel link missing');
+});
+
+test('thanks page', () => {
+  const page = loadPage('/thanks/');
+  assert.ok(visibleText(page).includes("We'll be in touch shortly"));
+  assert.equal(page.querySelector('meta[name="robots"]').getAttribute('content'), 'noindex');
+});

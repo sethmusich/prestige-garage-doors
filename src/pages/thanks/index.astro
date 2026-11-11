@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Button from '../../components/Button.astro';
+import { url } from '../../lib/url';
+---
+<BaseLayout title="Thank You" description="Thanks for contacting Prestige Garage Doors." noindex>
+  <PageHero title="Thank You!" subtitle="Thanks! We'll be in touch shortly. Need help right away? Give us a call." />
+  <section class="section section--dark">
+    <div class="container"><Button href={url('/')} variant="outline">Back to Home</Button></div>
+  </section>
+</BaseLayout>
