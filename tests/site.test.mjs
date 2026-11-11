@@ -203,3 +203,11 @@ test('custom domain setup', async () => {
   const canonical = loadPage('/').querySelector('link[rel="canonical"]').getAttribute('href');
   assert.equal(canonical, 'https://prestigegaragedoorsco.com/');
 });
+
+test('styles are inlined (no external stylesheet to go stale after a deploy)', () => {
+  for (const route of allPages()) {
+    const page = loadPage(route);
+    assert.equal(page.querySelectorAll('link[rel="stylesheet"]').length, 0, `${route} links an external stylesheet`);
+    assert.ok(page.querySelectorAll('style').length > 0, `${route} has no inline styles`);
+  }
+});

@@ -10,6 +10,9 @@ export default defineConfig({
   site: SITE,
   base: BASE,
   trailingSlash: 'always',
+  // Inline CSS into every page: a browser holding a cached page from a previous deploy
+  // can't end up pointing at a renamed (deleted) stylesheet and rendering unstyled.
+  build: { inlineStylesheets: 'always' },
   integrations: [
     sitemap({ filter: (page) => !page.includes('/thanks/') }),
   ],
