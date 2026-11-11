@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Button from '../../components/Button.astro';
+import Icon from '../../components/Icon.astro';
+import { services, type Service } from '../../data/services';
+import { SITE } from '../../config';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+const { service } = Astro.props as { service: Service };
+const others = services.filter((s) => s.slug !== service.slug);
+---
+<BaseLayout title={service.seoTitle} description={service.seoDescription}>
+  <PageHero eyebrow="Our Services" title={service.title} subtitle={service.short} image={service.image} />
+
+  <section class="section section--dark">
+    <div class="container svc">
+      <div class="svc__body">
+        <h2 class="svc__h">About this service</h2>
+        <p class="svc__lead">{service.body}</p>
+        <h3 class="svc__h3">What's included</h3>
+        <ul class="checklist">
+          {service.included.map((i) => <li>{i}</li>)}
+        </ul>
+        <div class="btn-row">
+          <Button href={SITE.bookingUrl} external><Icon name="calendar" /> Book Online</Button>
+          <Button href={SITE.phoneHref} variant="outline"><Icon name="phone" /> {SITE.phoneDisplay}</Button>
+        </div>
+      </div>
+      <div class="svc__photo">
+        <Image src={service.image} alt={service.imageAlt} width={720} loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeading title="Other Services" />
+      <div class="svc__others">
+        {others.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .svc { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+  .svc__h { color: var(--gold); text-transform: uppercase; }
+  .svc__lead { font-size: 1.2rem; color: var(--white); }
+  .svc__h3 { margin-top: 28px; }
+  .svc__photo :global(img) { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); border: 2px solid var(--gold); box-shadow: var(--shadow); }
+  .svc__others { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 860px) { .svc { grid-template-columns: 1fr; } .svc__photo { max-width: 460px; } }
+  @media (max-width: 620px) { .svc__others { grid-template-columns: 1fr; } }
+</style>

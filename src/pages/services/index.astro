@@ -1,7 +1,31 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services } from '../../data/services';
+import hero from '../../assets/photos/tech-spring-repair-2.jpg';
 ---
-<BaseLayout title="Our Services" description="Our Services — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="Our Services" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Garage Door Services in the Denver Metro"
+  description="Garage door repair, safety tune-ups and free estimates on new doors from Prestige Garage Doors. Serving Castle Rock to Longmont. Call (720) 295-3221."
+>
+  <PageHero
+    eyebrow="What we do"
+    title="Our Services"
+    subtitle="From quick repairs to brand-new doors, we offer the best solution for your garage — and we're here every step of the way."
+    image={hero}
+  />
+  <section class="section section--dark">
+    <div class="container grid">
+      {services.map((s) => <ServiceCard service={s} />)}
+    </div>
+  </section>
+  <CtaBand />
 </BaseLayout>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 960px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .grid { grid-template-columns: 1fr; } }
+</style>

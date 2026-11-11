@@ -1,7 +1,63 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import Accordion from '../../components/Accordion.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { SITE } from '../../config';
+import { whyChooseUs } from '../../data/whyChooseUs';
+import hero from '../../assets/photos/crew-truck-loading.jpg';
+import consult from '../../assets/photos/estimate-consult-2.jpg';
+import work from '../../assets/photos/tech-repair-closeup.jpg';
 ---
-<BaseLayout title="About Us" description="About Us — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="About Us" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="About Us"
+  description={`Prestige Garage Doors is a locally owned garage door company owned by ${SITE.owner}, serving the Denver Metro from Castle Rock to Longmont.`}
+>
+  <PageHero
+    eyebrow="About Prestige Garage Doors"
+    title="Locally Owned. People First."
+    subtitle="A Denver Metro small business serving homeowners from Castle Rock to Longmont."
+    image={hero}
+  />
+
+  <section class="section section--dark">
+    <div class="container about">
+      <div>
+        <SectionHeading title="Who we are" align="left" />
+        <p class="about__lead">Prestige Garage Doors is a locally owned small business located in the Denver Metro area, owned by {SITE.owner}. We service anywhere from Castle Rock to Longmont.</p>
+        <p>Our goal is to provide outstanding service and fair pricing to every person that gives us the opportunity to earn their business. We truly put people first and make it our mission to offer the best solution for our customers whether it’s simple repairs to major repairs or upgrades. We’re here every step of the way!</p>
+        <ul class="checklist">
+          <li>Licensed &amp; Insured</li>
+          <li>Same-day repairs from fully stocked trucks</li>
+          <li>Free estimates on new doors</li>
+          <li>Discounts available</li>
+        </ul>
+      </div>
+      <div class="about__photos">
+        <Image src={consult} alt="Prestige Garage Doors team member walking a homeowner through door options" width={600} loading="lazy" />
+        <Image src={work} alt="Technician working on garage door hardware" width={600} loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container narrow">
+      <SectionHeading title="What we stand for" />
+      <Accordion items={whyChooseUs} variant="gold" name="values" />
+    </div>
+  </section>
+
+  <CtaBand heading="Let's take care of your garage door" />
 </BaseLayout>
+
+<style>
+  .about { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .about__lead { font-size: 1.2rem; color: var(--white); }
+  .about__photos { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .about__photos :global(img) { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+  .about__photos :global(img:last-child) { margin-top: 48px; }
+  .narrow { max-width: 860px; }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+</style>

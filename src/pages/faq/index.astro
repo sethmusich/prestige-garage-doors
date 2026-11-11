@@ -1,7 +1,30 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Accordion from '../../components/Accordion.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { faqs } from '../../data/faqs';
+import hero from '../../assets/photos/tune-up-door.jpg';
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
 ---
-<BaseLayout title="FAQ" description="FAQ — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="FAQ" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Garage Door FAQ"
+  description="Answers to common garage door questions: tune-ups, same-day repairs, free estimates, service areas and booking with Prestige Garage Doors."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />
+  <PageHero eyebrow="FAQ" title="Frequently Asked Questions" subtitle="Quick answers about our garage door services. Still have a question? Give us a call." image={hero} />
+  <section class="section section--dark">
+    <div class="container narrow">
+      <Accordion items={faqs.map((f) => ({ title: f.q, body: f.a }))} variant="plain" name="faq" />
+    </div>
+  </section>
+  <CtaBand heading="Still have questions?" text="We're happy to help — call us or book online." />
 </BaseLayout>
+
+<style>
+  .narrow { max-width: 860px; }
+</style>

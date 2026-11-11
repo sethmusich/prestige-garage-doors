@@ -1,7 +1,20 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ReviewsSection from '../../components/ReviewsSection.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import hero from '../../assets/photos/tech-handshake.jpg';
 ---
-<BaseLayout title="Reviews" description="Reviews — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="Reviews" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Reviews | 4.9 Stars on Google"
+  description="Prestige Garage Doors is rated 4.9 out of 5 from 53 Google reviews. Read what Denver Metro homeowners say about our garage door service."
+>
+  <PageHero
+    eyebrow="Reviews"
+    title="What Our Customers Say"
+    subtitle="Rated 4.9 out of 5 by Denver Metro homeowners on Google."
+    image={hero}
+  />
+  <ReviewsSection />
+  <CtaBand heading="Ready to see why customers rate us 4.9?" />
 </BaseLayout>

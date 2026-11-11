@@ -1,7 +1,87 @@
 ---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import hero from '../../assets/photos/carriage-doors.jpg';
+
+// Every image in src/assets/gallery/ and src/assets/photos/ shows up here automatically.
+const modules = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/{gallery,photos}/*.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const altFor = (path: string) => {
+  const name = path.split('/').pop()!.replace(/\.[a-z]+$/i, '').replace(/-\d+$/, '');
+  const words = name.replace(/-/g, ' ');
+  return `Prestige Garage Doors project: ${words}`;
+};
+const photos = await Promise.all(
+  Object.entries(modules)
+    .sort(([a], [b]) => (a.includes('/gallery/') === b.includes('/gallery/') ? a.localeCompare(b) : a.includes('/gallery/') ? -1 : 1))
+    .map(async ([path, mod]) => ({
+      src: mod.default,
+      alt: altFor(path),
+      full: (await getImage({ src: mod.default, width: 1800, format: 'webp' })).src,
+    })),
+);
 ---
-<BaseLayout title="Gallery" description="Gallery — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="Gallery" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Gallery | Garage Door Projects"
+  description="Photos of garage door repairs, tune-ups and new door installs by Prestige Garage Doors across the Denver Metro."
+>
+  <PageHero eyebrow="Our work" title="Gallery" subtitle="A look at recent repairs, tune-ups and new doors around the Denver Metro." image={hero} />
+  <section class="section section--dark">
+    <div class="container gallery">
+      {photos.map((p, i) => (
+        <a class="gallery__item" href={p.full} data-lightbox data-index={i}>
+          <Image src={p.src} alt={p.alt} width={600} loading="lazy" />
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <dialog class="lightbox" aria-label="Photo viewer">
+    <img alt="" />
+    <button type="button" class="lightbox__btn lightbox__close" aria-label="Close">×</button>
+    <button type="button" class="lightbox__btn lightbox__prev" aria-label="Previous photo">‹</button>
+    <button type="button" class="lightbox__btn lightbox__next" aria-label="Next photo">›</button>
+  </dialog>
+
+  <CtaBand />
 </BaseLayout>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.lightbox')!;
+  const img = dialog.querySelector('img')!;
+  const items = [...document.querySelectorAll<HTMLAnchorElement>('[data-lightbox]')];
+  let at = 0;
+  const show = (i: number) => {
+    at = (i + items.length) % items.length;
+    img.src = items[at].href;
+    img.alt = items[at].querySelector('img')?.alt ?? '';
+  };
+  items.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); show(i); dialog.showModal(); }));
+  dialog.querySelector('.lightbox__close')!.addEventListener('click', () => dialog.close());
+  dialog.querySelector('.lightbox__prev')!.addEventListener('click', () => show(at - 1));
+  dialog.querySelector('.lightbox__next')!.addEventListener('click', () => show(at + 1));
+  dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  dialog.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') show(at - 1);
+    if (e.key === 'ArrowRight') show(at + 1);
+  });
+</script>
+
+<style>
+  .gallery { columns: 3 280px; column-gap: 16px; }
+  .gallery__item { display: block; margin-bottom: 16px; break-inside: avoid; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+  .gallery__item :global(img) { width: 100%; transition: transform 0.4s ease; }
+  .gallery__item:hover :global(img) { transform: scale(1.04); }
+  .lightbox { padding: 0; border: 0; background: transparent; max-width: 94vw; max-height: 92vh; overflow: visible; }
+  .lightbox::backdrop { background: rgba(5, 11, 28, 0.92); }
+  .lightbox img { max-width: 94vw; max-height: 88vh; border-radius: 10px; }
+  .lightbox__btn { position: fixed; background: rgba(10,17,40,0.8); color: var(--white); border: 2px solid var(--gold); border-radius: 50%; width: 48px; height: 48px; font-size: 28px; line-height: 1; cursor: pointer; }
+  .lightbox__close { top: 16px; right: 16px; }
+  .lightbox__prev { left: 16px; top: 50%; transform: translateY(-50%); }
+  .lightbox__next { right: 16px; top: 50%; transform: translateY(-50%); }
+</style>

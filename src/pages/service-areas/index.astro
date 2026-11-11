@@ -1,7 +1,30 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import ServiceAreas from '../../components/ServiceAreas.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import hero from '../../assets/photos/modern-black-doors.jpg';
 ---
-<BaseLayout title="Service Areas" description="Service Areas — Prestige Garage Doors, locally owned garage door service in the Denver Metro.">
-  <PageHero title="Service Areas" subtitle="Call or book online — we serve the Denver Metro from Castle Rock to Longmont." />
+<BaseLayout
+  title="Service Areas | Castle Rock to Longmont"
+  description="Prestige Garage Doors serves the Denver Metro from Castle Rock to Longmont, including Parker, Highlands Ranch, Centennial, Littleton, Denver, Arvada, Westminster, Broomfield and Boulder."
+>
+  <PageHero
+    eyebrow="Where we work"
+    title="Serving the Denver Metro"
+    subtitle="Garage door repair, tune-ups and new door estimates anywhere from Castle Rock all the way up to Longmont."
+    image={hero}
+  />
+  <ServiceAreas />
+  <section class="section section--dark">
+    <div class="container narrow">
+      <p class="note">Don't see your town? If you're in the Denver Metro between Castle Rock and Longmont, give us a call — chances are we can help.</p>
+    </div>
+  </section>
+  <CtaBand />
 </BaseLayout>
+
+<style>
+  .narrow { max-width: 760px; text-align: center; }
+  .note { font-size: 1.2rem; margin: 0; }
+</style>

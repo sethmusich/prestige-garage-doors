@@ -83,3 +83,36 @@ test('home lists approved claims', () => {
     assert.ok(text.includes(claim), `missing claim: ${claim}`);
   }
 });
+
+const BOOKING_URL =
+  'https://book.housecallpro.com/book/Prestige-Garage-Doors/6a27e72806254cf3ae84c4cd25c6b0b9?v2=true';
+
+test('each service page has its copy', () => {
+  const cases = { 'tune-ups': '40-point inspection', repair: 'fully stocked trucks', 'free-estimates': 'multiple options for doors' };
+  for (const [slug, phrase] of Object.entries(cases)) {
+    const page = loadPage(`/services/${slug}/`);
+    assert.ok(visibleText(page).includes(phrase), `${slug} missing "${phrase}"`);
+    assert.ok(page.querySelector('a[href="tel:+17202953221"]'), `${slug} missing tel link`);
+    assert.ok(page.querySelectorAll('a').some((a) => a.getAttribute('href') === BOOKING_URL), `${slug} missing booking link`);
+  }
+});
+
+test('service areas lists Castle Rock and Longmont', () => {
+  const page = loadPage('/service-areas/');
+  const text = visibleText(page);
+  assert.ok(text.includes('Castle Rock') && text.includes('Longmont'));
+  assert.ok(page.querySelector('iframe'), 'map iframe missing');
+});
+
+test('about names the owner', () => {
+  assert.ok(visibleText(loadPage('/about/')).includes('Kevin Reynoso'));
+});
+
+test('gallery renders photos', () => {
+  assert.ok(loadPage('/gallery/').querySelectorAll('main img').length >= 6);
+});
+
+test('faq page has every question', async () => {
+  const page = loadPage('/faq/');
+  assert.ok(page.querySelectorAll('main details').length >= 8);
+});
