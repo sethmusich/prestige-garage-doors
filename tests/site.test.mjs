@@ -139,7 +139,7 @@ test('contact form posts without JS', () => {
   assert.ok(form.querySelector('input[type="hidden"][name="access_key"]'), 'access key missing');
   assert.equal(
     form.querySelector('input[name="redirect"]').getAttribute('value'),
-    'https://www.prestigegaragedoorsco.com/thanks/',
+    'https://prestigegaragedoorsco.com/thanks/',
   );
   assert.ok(form.querySelector('[name="botcheck"]'), 'honeypot missing');
 });
@@ -192,14 +192,14 @@ test('sitemap excludes thanks', async () => {
   const { DIST } = await import('./helpers.mjs');
   assert.ok(existsSync(DIST + 'sitemap-index.xml'));
   const xml = readFileSync(DIST + 'sitemap-0.xml', 'utf8');
-  assert.ok(xml.includes("https://www.prestigegaragedoorsco.com/services/repair/"));
+  assert.ok(xml.includes("https://prestigegaragedoorsco.com/services/repair/"));
   assert.ok(!xml.includes('/thanks/'));
 });
 
 test('custom domain setup', async () => {
   const { readFileSync } = await import('node:fs');
   const { DIST } = await import('./helpers.mjs');
-  assert.equal(readFileSync(DIST + 'CNAME', 'utf8').trim(), 'www.prestigegaragedoorsco.com');
+  assert.equal(readFileSync(DIST + 'CNAME', 'utf8').trim(), 'prestigegaragedoorsco.com');
   const canonical = loadPage('/').querySelector('link[rel="canonical"]').getAttribute('href');
-  assert.equal(canonical, 'https://www.prestigegaragedoorsco.com/');
+  assert.equal(canonical, 'https://prestigegaragedoorsco.com/');
 });

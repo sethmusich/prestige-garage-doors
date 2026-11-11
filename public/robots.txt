@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.prestigegaragedoorsco.com/sitemap-index.xml
+Sitemap: https://prestigegaragedoorsco.com/sitemap-index.xml
