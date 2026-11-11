@@ -1,0 +1,20 @@
+---
+// Text lockup; Task 2 adds the crest image.
+interface Props { size?: 'sm' | 'lg' }
+const { size = 'sm' } = Astro.props;
+---
+<span class:list={['logo', `logo--${size}`]}>
+  <span class="logo__text">
+    <span class="logo__name">Prestige</span>
+    <span class="logo__sub">Garage Doors</span>
+  </span>
+</span>
+
+<style>
+  .logo { display: inline-flex; align-items: center; gap: 10px; }
+  .logo__text { display: grid; line-height: 1; text-align: center; }
+  .logo__name { font-family: var(--font-display); font-weight: 700; color: var(--white); font-size: 1.5rem; letter-spacing: 0.14em; }
+  .logo__sub { font-family: var(--font-display); font-weight: 600; color: var(--gold); font-size: 0.68rem; letter-spacing: 0.22em; margin-top: 4px; }
+  .logo--lg .logo__name { font-size: 2rem; }
+  .logo--lg .logo__sub { font-size: 0.85rem; }
+</style>

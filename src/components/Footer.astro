@@ -1,0 +1,71 @@
+---
+import { SITE, NAV } from '../config';
+import { url } from '../lib/url';
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+const year = new Date().getFullYear();
+const services = NAV.find((n) => 'children' in n);
+---
+<footer class="footer">
+  <hr class="gold-rule" />
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href={url('/')} class="footer__logo" aria-label={`${SITE.name} home`}><Logo size="lg" /></a>
+      <p>Locally owned garage door service for the {SITE.region}, from {SITE.area}.</p>
+      <div class="footer__social">
+        <a href={SITE.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={22} /></a>
+        {SITE.facebook && <a href={SITE.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={22} /></a>}
+        {SITE.tiktok && <a href={SITE.tiktok} target="_blank" rel="noopener" aria-label="TikTok"><Icon name="tiktok" size={22} /></a>}
+      </div>
+    </div>
+
+    <div>
+      <h2 class="footer__h">Explore</h2>
+      <ul class="footer__list">
+        {NAV.filter((n) => !('children' in n)).map((n) => <li><a href={url(n.href)}>{n.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="footer__h">Services</h2>
+      <ul class="footer__list">
+        {services && 'children' in services && services.children.map((c) => <li><a href={url(c.href)}>{c.label}</a></li>)}
+        <li><a href={url('/service-areas/')}>Service Areas</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="footer__h">Get in touch</h2>
+      <a class="footer__phone" href={SITE.phoneHref}><Icon name="phone" /> {SITE.phoneDisplay}</a>
+      <p class="footer__muted">Licensed &amp; insured · Same-day repairs</p>
+      <Button href={SITE.bookingUrl} external>Book Online</Button>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <span>© {year} {SITE.name}. All rights reserved.</span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--navy-950); color: var(--text-muted); }
+  .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 40px; padding-block: 64px 48px; }
+  .footer__logo { text-decoration: none; display: inline-block; margin-bottom: 16px; }
+  .footer__h { font-size: 1rem; color: var(--gold); letter-spacing: 0.14em; margin-bottom: 16px; }
+  .footer__list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .footer__list a { color: var(--text); text-decoration: none; }
+  .footer__list a:hover { color: var(--gold-light); }
+  .footer__social { display: flex; gap: 14px; }
+  .footer__social a { color: var(--gold); }
+  .footer__phone { display: inline-flex; gap: 8px; align-items: center; font-size: 1.3rem; font-weight: 700; color: var(--white); text-decoration: none; margin-bottom: 8px; }
+  .footer__phone :global(svg) { color: var(--gold); }
+  .footer__muted { font-size: 0.95rem; }
+  .footer__bottom { border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.9rem; }
+  .footer__bottom-inner { display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; flex-wrap: wrap; }
+  .footer__bottom a { color: var(--text-muted); text-decoration: none; }
+  @media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .footer__grid { grid-template-columns: 1fr; gap: 32px; } }
+</style>

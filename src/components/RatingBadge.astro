@@ -1,0 +1,42 @@
+---
+import { SITE } from '../config';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<a
+  class:list={['rating', { 'rating--compact': compact }]}
+  href={SITE.googleUrl}
+  target="_blank"
+  rel="noopener"
+  aria-label={`Rated ${SITE.rating} out of 5 on Google from ${SITE.reviewCount} reviews`}
+>
+  <span class="rating__score">{SITE.rating}</span>
+  <span class="rating__body">
+    <span class="rating__stars" aria-hidden="true">★★★★★</span>
+    <span class="rating__count">{SITE.reviewCount} Google reviews</span>
+  </span>
+</a>
+
+<style>
+  .rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.55em 1em;
+    background: var(--white);
+    color: var(--navy-900);
+    border-radius: 12px;
+    text-decoration: none;
+    line-height: 1.1;
+    box-shadow: var(--shadow);
+  }
+  .rating:hover { color: var(--navy-900); }
+  .rating__score { font-family: var(--font-display); font-weight: 700; font-size: 1.7rem; }
+  .rating__body { display: grid; gap: 2px; }
+  .rating__stars { color: #f5b301; letter-spacing: 0.08em; font-size: 1.05rem; }
+  .rating__count { font-size: 0.85rem; font-weight: 600; }
+  .rating--compact { padding: 0.35em 0.75em; box-shadow: none; }
+  .rating--compact .rating__score { font-size: 1.2rem; }
+  .rating--compact .rating__stars { font-size: 0.85rem; }
+  .rating--compact .rating__count { font-size: 0.75rem; }
+</style>

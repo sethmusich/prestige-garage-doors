@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Button from '../components/Button.astro';
+import { url } from '../lib/url';
+---
+<BaseLayout title="Page Not Found" description="That page doesn't exist." noindex>
+  <PageHero title="Page Not Found" subtitle="That page has moved or doesn't exist. Need help with your garage door? Give us a call or book online." />
+  <section class="section">
+    <div class="container"><Button href={url('/')} variant="outline">Back to Home</Button></div>
+  </section>
+</BaseLayout>
