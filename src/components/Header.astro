@@ -78,7 +78,7 @@ const isActive = (href: string) =>
   const header = document.querySelector<HTMLElement>('.site-header')!;
   const btn = header.querySelector<HTMLButtonElement>('.menu-toggle')!;
   const nav = header.querySelector<HTMLElement>('.nav')!;
-  const mobile = matchMedia('(max-width: 1024px)');
+  const mobile = matchMedia('(max-width: 1180px)');
 
   const setOpen = (open: boolean) => {
     // Panel starts right under the header, wherever the header currently sits.
@@ -115,7 +115,7 @@ const isActive = (href: string) =>
 
   /* No backdrop-filter here: it would trap the fixed-position mobile menu inside the bar. */
   .mainbar { background: rgba(10, 17, 40, 0.98); border-bottom: 1px solid var(--line); }
-  .mainbar__inner { display: flex; align-items: center; gap: 20px; min-height: var(--header-h); }
+  .mainbar__inner { display: flex; align-items: center; gap: 20px; min-height: var(--header-h); width: min(100% - 2 * var(--gutter), 1400px); }
   .brand { display: inline-flex; align-items: center; text-decoration: none; flex: none; }
 
   .nav { margin-inline: auto; }
@@ -127,6 +127,11 @@ const isActive = (href: string) =>
     padding: 10px 10px; color: var(--white); text-decoration: none;
     font-weight: 700; font-size: 0.92rem; letter-spacing: 0.08em; text-transform: uppercase;
     border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  @media (max-width: 1440px) and (min-width: 1181px) {
+    .nav__list { gap: 0; }
+    .nav__link { padding-inline: 7px; font-size: 0.85rem; letter-spacing: 0.05em; }
   }
   .nav__caret { display: inline-flex; }
   .nav__link:hover, .nav__link.active { color: var(--gold-light); border-bottom-color: var(--gold); }
@@ -154,12 +159,12 @@ const isActive = (href: string) =>
   .menu-toggle { display: none; background: none; border: 0; color: var(--white); padding: 6px; cursor: pointer; }
   .menu-toggle__close { display: none; }
 
-  @media (max-width: 1180px) {
+  @media (max-width: 1440px) {
     .phone__text { display: none; }
     .phone { width: 46px; height: 46px; justify-content: center; border: 2px solid var(--gold); border-radius: 50%; }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1180px) {
     .topbar__area { display: none; }
     .menu-toggle { display: inline-flex; }
     .nav {
