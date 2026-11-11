@@ -48,7 +48,7 @@ The site has one job: get people in the Denver metro to **call** or **send a boo
 - Buttons: rounded pill shapes like Speck. Primary = gold (possibly a brighter gold so it pops); secondary = white/outlined with phone number.
 - **Type:** an elegant serif for headings echoing the logo's wide-spaced serif wordmark (Claude's call — keeps Speck's bold confidence while matching Prestige); clean sans-serif for body.
 - Lots of real photography; text over darkened photo backgrounds in the hero and service cards, like Speck.
-- Logo: provided as a square PNG (navy background, gold crest + "PRESTIGE / GARAGE DOORS"). Source: `assets-source/logo-original.png` in the repo. The header needs a transparent or crest-only version; builder may crop/extract from this file. (A cleaner vector from Kevin would be better later.)
+- Logo: provided as a square PNG (navy background, gold crest + "PRESTIGE / GARAGE DOORS"). Source: `assets-source/Logo-02.jpeg` (4167px, preferred) in the repo; `logo-original.png` is a lower-res copy. The header needs a transparent or crest-only version; builder may crop/extract from this file. (A cleaner vector from Kevin would be better later.)
 
 ### Business facts (use exactly)
 - Name: Prestige Garage Doors. Owner: Kevin Reynoso.
