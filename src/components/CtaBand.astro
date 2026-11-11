@@ -1,0 +1,35 @@
+---
+import { SITE } from '../config';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+interface Props { heading?: string; text?: string }
+const {
+  heading = 'Garage door giving you trouble?',
+  text = 'Call now for fast, reliable garage door service — or book online in minutes.',
+} = Astro.props;
+---
+<section class="cta">
+  <div class="container cta__inner">
+    <div>
+      <h2 class="cta__h">{heading}</h2>
+      <p class="cta__p">{text}</p>
+    </div>
+    <div class="btn-row">
+      <Button href={SITE.phoneHref} variant="outline"><Icon name="phone" /> {SITE.phoneDisplay}</Button>
+      <Button href={SITE.bookingUrl} external><Icon name="calendar" /> Book Online</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background:
+      radial-gradient(circle at 15% 50%, rgba(201,164,92,0.18), transparent 50%),
+      linear-gradient(135deg, var(--navy-700), var(--navy-900));
+    border-block: 1px solid var(--line);
+    padding-block: clamp(44px, 6vw, 72px);
+  }
+  .cta__inner { display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+  .cta__h { text-transform: uppercase; margin-bottom: 8px; }
+  .cta__p { margin: 0; color: var(--text-muted); font-size: 1.15rem; }
+</style>

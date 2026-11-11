@@ -1,0 +1,18 @@
+---
+interface Props { title: string; eyebrow?: string; align?: 'left' | 'center'; as?: 'h2' | 'h1' }
+const { title, eyebrow, align = 'center', as: Tag = 'h2' } = Astro.props;
+---
+<div class:list={['sh', `sh--${align}`]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Tag class="sh__title">{title}</Tag>
+  <span class="sh__rule" aria-hidden="true"></span>
+</div>
+
+<style>
+  .sh { margin-bottom: clamp(28px, 4vw, 48px); }
+  .sh--center { text-align: center; }
+  .sh .eyebrow { margin-bottom: 8px; }
+  .sh__title { color: var(--gold); text-transform: uppercase; margin-bottom: 14px; }
+  .sh__rule { display: block; width: 90px; height: 3px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light)); }
+  .sh--center .sh__rule { margin-inline: auto; }
+</style>

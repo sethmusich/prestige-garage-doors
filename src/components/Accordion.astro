@@ -1,0 +1,49 @@
+---
+// Native <details> accordion: works without JavaScript.
+interface Props { items: { title: string; body: string }[]; variant?: 'gold' | 'plain'; name?: string }
+const { items, variant = 'gold', name = 'acc' } = Astro.props;
+---
+<div class:list={['acc', `acc--${variant}`]}>
+  {items.map((item, i) => (
+    <details class="acc__item" name={name} open={i === 0}>
+      <summary class="acc__summary">
+        <span class="acc__title">{item.title}</span>
+        <span class="acc__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="acc__body"><p>{item.body}</p></div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .acc { display: grid; gap: 12px; }
+  .acc__summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 22px; border-radius: 12px; font-weight: 700; font-size: 1.15rem;
+  }
+  .acc__summary::-webkit-details-marker { display: none; }
+  .acc__icon {
+    flex: none; width: 32px; height: 32px; border-radius: 50%; position: relative; background: var(--white);
+  }
+  .acc__icon::before, .acc__icon::after {
+    content: ''; position: absolute; left: 50%; top: 50%; width: 12px; height: 2.5px; background: var(--navy-900);
+    transform: translate(-50%, -50%); transition: transform 0.2s ease;
+  }
+  .acc__icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+  details[open] .acc__icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+  .acc__body { padding: 16px 22px 6px; }
+  .acc__body p { margin: 0 0 10px; }
+
+  .acc--gold .acc__summary {
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold-dark));
+    color: var(--navy-950);
+    font-family: var(--font-display);
+    letter-spacing: 0.03em;
+  }
+  .acc--gold .acc__summary:hover { filter: brightness(1.06); }
+
+  .acc--plain .acc__item { border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .acc--plain .acc__summary { padding-inline: 4px; color: var(--white); border-radius: 0; }
+  .acc--plain .acc__icon { background: var(--gold); }
+  .acc--plain .acc__body { padding-inline: 4px; color: var(--text-muted); }
+</style>

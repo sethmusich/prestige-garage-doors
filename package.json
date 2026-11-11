@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "npm run build && node --test tests/*.test.mjs"
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
@@ -19,6 +20,8 @@
     "astro": "^7.4.11"
   },
   "devDependencies": {
-    "node-html-parser": "^9.0.7"
+    "@astrojs/check": "^0.9.12",
+    "node-html-parser": "^9.0.7",
+    "typescript": "^6.0.3"
   }
 }

@@ -1,0 +1,53 @@
+---
+import { SITE } from '../config';
+import { reviews } from '../data/reviews';
+import SectionHeading from './SectionHeading.astro';
+import Button from './Button.astro';
+interface Props { limit?: number; headingAs?: 'h1' | 'h2' }
+const { limit, headingAs = 'h2' } = Astro.props;
+const shown = limit ? reviews.slice(0, limit) : reviews;
+---
+<section class="section section--dark reviews">
+  <div class="container">
+    <SectionHeading eyebrow="What our customers say" title="Rated 4.9 on Google" as={headingAs} />
+    <div class="reviews__summary">
+      <span class="reviews__score">{SITE.rating}</span>
+      <div>
+        <div class="reviews__stars" aria-hidden="true">★★★★★</div>
+        <p class="reviews__count">Based on {SITE.reviewCount} Google reviews</p>
+      </div>
+    </div>
+    {shown.length > 0 && (
+      <div class="reviews__grid">
+        {shown.map((r) => (
+          <figure class="review">
+            <div class="reviews__stars review__stars" aria-label="5 stars">★★★★★</div>
+            <blockquote>{r.text}</blockquote>
+            <figcaption>{r.name}{r.when && <span> · {r.when}</span>}</figcaption>
+          </figure>
+        ))}
+      </div>
+    )}
+    <p class="reviews__lead">Homeowners across the Denver Metro trust us with their garage doors. See what they have to say, or share your own experience.</p>
+    <div class="btn-row reviews__btns">
+      <Button href={SITE.googleUrl} external>Read our Google reviews</Button>
+      <Button href={SITE.googleUrl} variant="outline" external>Leave a review</Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews { text-align: center; }
+  .reviews__summary { display: inline-flex; align-items: center; gap: 18px; background: var(--white); color: var(--navy-900); padding: 18px 28px; border-radius: var(--radius); box-shadow: var(--shadow); }
+  .reviews__score { font-family: var(--font-display); font-size: 3.4rem; font-weight: 700; line-height: 1; }
+  .reviews__stars { color: #f5b301; font-size: 1.6rem; letter-spacing: 0.1em; text-align: left; }
+  .reviews__count { margin: 0; font-weight: 600; text-align: left; }
+  .reviews__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 40px; text-align: left; }
+  .review { margin: 0; background: var(--white); color: var(--navy-900); border-radius: var(--radius); padding: 24px; }
+  .review__stars { font-size: 1.1rem; }
+  .review blockquote { margin: 10px 0 14px; }
+  .review figcaption { font-weight: 700; }
+  .review figcaption span { font-weight: 400; color: #556; }
+  .reviews__lead { max-width: 620px; margin: 32px auto 24px; color: var(--text-muted); font-size: 1.1rem; }
+  .reviews__btns { justify-content: center; }
+</style>

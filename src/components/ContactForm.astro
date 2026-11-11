@@ -1,0 +1,90 @@
+---
+// Contact/quote form → Web3Forms. Works as a plain POST without JS (redirects to /thanks/);
+// with JS it submits in place and shows success or an error.
+import { SITE } from '../config';
+import { url } from '../lib/url';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const thanksUrl = new URL(url('/thanks/'), Astro.site).href;
+const uid = compact ? 'cf-c' : 'cf';
+---
+<form class:list={['cform', { 'cform--compact': compact }]} method="POST" action={SITE.formEndpoint} data-contact-form>
+  <input type="hidden" name="access_key" value={SITE.formAccessKey} />
+  <input type="hidden" name="subject" value="New website inquiry — Prestige Garage Doors" />
+  <input type="hidden" name="from_name" value="Prestige Garage Doors website" />
+  <input type="hidden" name="redirect" value={thanksUrl} />
+  <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+  <div class="cform__grid">
+    <label><span>First name</span><input id={`${uid}-first`} name="first_name" autocomplete="given-name" required /></label>
+    <label><span>Last name</span><input id={`${uid}-last`} name="last_name" autocomplete="family-name" required /></label>
+    <label><span>Phone</span><input id={`${uid}-phone`} name="phone" type="tel" autocomplete="tel" required /></label>
+    <label><span>Email</span><input id={`${uid}-email`} name="email" type="email" autocomplete="email" required /></label>
+    <label><span>City</span><input id={`${uid}-city`} name="city" autocomplete="address-level2" required /></label>
+    <label><span>What can we help with?</span>
+      <select id={`${uid}-service`} name="service">
+        <option>Tune-Up</option>
+        <option>Repair</option>
+        <option>Free Estimate on New Door</option>
+        <option>Other</option>
+      </select>
+    </label>
+    <label class="cform__full"><span>Message</span>
+      <textarea id={`${uid}-message`} name="message" rows={compact ? 3 : 5} required placeholder="Tell us about your door — brand, size, what's going on."></textarea>
+    </label>
+  </div>
+  <button type="submit" class="cform__submit">Send</button>
+  <p class="cform__status" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.cform__status')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      status.className = 'cform__status';
+      status.textContent = '';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || json.success === false) throw new Error(json.message || 'failed');
+        form.reset();
+        status.classList.add('is-ok');
+        status.textContent = "Thanks! We'll be in touch shortly.";
+      } catch {
+        status.classList.add('is-err');
+        status.textContent = 'Something went wrong — please call (720) 295-3221.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send';
+      }
+    });
+  });
+</script>
+
+<style>
+  .cform__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .cform--compact .cform__grid { grid-template-columns: repeat(3, 1fr); }
+  .cform__full { grid-column: 1 / -1; }
+  .cform label { display: grid; gap: 6px; font-weight: 600; font-size: 0.95rem; color: var(--text); }
+  .cform input:not([type=checkbox]), .cform select, .cform textarea {
+    width: 100%; font: inherit; font-weight: 400; color: var(--navy-900); background: var(--white);
+    border: 2px solid transparent; border-radius: 8px; padding: 12px 14px; min-height: 48px;
+  }
+  .cform textarea { resize: vertical; }
+  .cform input:focus, .cform select:focus, .cform textarea:focus { outline: none; border-color: var(--gold); }
+  .cform__submit {
+    margin-top: 18px; min-height: 52px; padding: 0 3em; border: 0; border-radius: var(--radius-pill); cursor: pointer;
+    font: inherit; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    background: linear-gradient(180deg, var(--gold-light), var(--gold-bright) 45%, var(--gold-dark)); color: var(--navy-950);
+  }
+  .cform__submit:disabled { opacity: 0.7; cursor: wait; }
+  .cform__status { margin: 14px 0 0; font-weight: 600; min-height: 1.5em; }
+  .cform__status.is-ok { color: #8fe3a6; }
+  .cform__status.is-err { color: #ffb4a8; }
+  @media (max-width: 760px) { .cform--compact .cform__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .cform__grid, .cform--compact .cform__grid { grid-template-columns: 1fr; } }
+</style>
