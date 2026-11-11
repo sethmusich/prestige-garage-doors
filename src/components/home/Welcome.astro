@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import { SITE } from '../../config';
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+import photo from '../../assets/photos/tech-handshake.jpg';
+interface Props { headingAs?: 'h1' | 'h2' }
+const { headingAs: Tag = 'h2' } = Astro.props;
+---
+<section class="section section--dark welcome">
+  <div class="container welcome__grid">
+    <div class="welcome__photo">
+      <Image src={photo} alt="Prestige Garage Doors technician shaking hands with a customer in their garage" width={720} loading="lazy" />
+    </div>
+    <div>
+      <p class="eyebrow">Welcome to Prestige Garage Doors</p>
+      <Tag class="welcome__h">Who we are</Tag>
+      <p class="welcome__lead">Prestige Garage Doors is a locally owned small business located in the Denver Metro area. We service anywhere from Castle Rock to Longmont.</p>
+      <p>Our goal is to provide outstanding service and fair pricing to every person that gives us the opportunity to earn their business. We truly put people first and make it our mission to offer the best solution for our customers whether it’s simple repairs to major repairs or upgrades. We’re here every step of the way!</p>
+      <ul class="checklist">
+        <li>Licensed &amp; Insured</li>
+        <li>Same-Day Repairs</li>
+        <li>Free Estimates on New Doors</li>
+        <li>Discounts Available</li>
+      </ul>
+      <div class="btn-row">
+        <Button href={SITE.bookingUrl} external>Book Online</Button>
+        <Button href={SITE.phoneHref} variant="outline"><Icon name="phone" /> {SITE.phoneDisplay}</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .welcome__grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .welcome__photo { position: relative; }
+  .welcome__photo::before {
+    content: ''; position: absolute; inset: 18px -18px -18px 18px; border: 2px solid var(--gold); border-radius: var(--radius); z-index: 0;
+  }
+  .welcome__photo :global(img) { position: relative; z-index: 1; border-radius: var(--radius); width: 100%; aspect-ratio: 4 / 5; object-fit: cover; box-shadow: var(--shadow); }
+  .welcome__h { color: var(--gold); text-transform: uppercase; }
+  .welcome__lead { font-size: 1.2rem; color: var(--white); }
+  .checklist { grid-template-columns: 1fr 1fr; margin-top: 8px; }
+  .checklist li { font-weight: 600; color: var(--white); }
+  @media (max-width: 860px) {
+    .welcome__grid { grid-template-columns: 1fr; }
+    .welcome__photo { max-width: 460px; margin-right: 18px; }
+  }
+  @media (max-width: 420px) { .checklist { grid-template-columns: 1fr; } }
+</style>

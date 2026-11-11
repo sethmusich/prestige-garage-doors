@@ -1,0 +1,69 @@
+---
+import { SITE } from '../../config';
+import RatingBadge from '../RatingBadge.astro';
+import PhotoSlideshow from '../PhotoSlideshow.astro';
+import ContactForm from '../ContactForm.astro';
+import Icon from '../Icon.astro';
+import a from '../../assets/photos/crew-truck-loading.jpg';
+import b from '../../assets/photos/tech-repair-closeup.jpg';
+import c from '../../assets/photos/modern-wood-door.jpg';
+import d from '../../assets/photos/estimate-consult-2.jpg';
+import e from '../../assets/photos/carriage-doors.jpg';
+const slides = [
+  { src: a, alt: 'Prestige Garage Doors technician loading a new opener rail onto the work truck' },
+  { src: b, alt: 'Technician working on garage door hardware' },
+  { src: c, alt: 'Modern wood-look garage door with windows' },
+  { src: d, alt: 'Reviewing new garage door options with a homeowner' },
+  { src: e, alt: 'Pair of wood carriage-style garage doors' },
+];
+---
+<section class="section section--light trust">
+  <div class="container trust__grid">
+    <div>
+      <h2 class="trust__h">Call now for fast, reliable garage door service</h2>
+      <a class="trust__phone" href={SITE.phoneHref}><Icon name="phone" size={28} /> {SITE.phoneDisplay}</a>
+      <ul class="trust__badges">
+        <li><RatingBadge /></li>
+        <li class="badge"><strong>Licensed &amp; Insured</strong><span>Peace of mind on every job</span></li>
+        <li class="badge"><strong>Locally Owned</strong><span>Denver Metro small business</span></li>
+      </ul>
+    </div>
+    <PhotoSlideshow images={slides} id="trust-slides" />
+  </div>
+
+  <div class="container">
+    <div class="quote" id="quote">
+      <div class="quote__intro">
+        <h2 class="quote__h">Free Quote!</h2>
+        <p>Or call us at<br /><a href={SITE.phoneHref}>{SITE.phoneDisplay}</a></p>
+      </div>
+      <ContactForm compact />
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .trust__h { text-transform: uppercase; font-size: clamp(1.7rem, 3.6vw, 2.6rem); }
+  .trust__phone { display: inline-flex; align-items: center; gap: 12px; font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 700; color: var(--gold-light); text-decoration: none; margin-bottom: 28px; }
+  .trust__phone:hover { color: var(--white); }
+  .trust__badges { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; }
+  .badge { display: grid; align-content: center; gap: 2px; padding: 10px 18px; border: 2px solid var(--gold); border-radius: 12px; line-height: 1.2; }
+  .badge strong { color: var(--white); font-family: var(--font-display); letter-spacing: 0.04em; }
+  .badge span { color: var(--text-muted); font-size: 0.9rem; }
+
+  .quote {
+    margin-top: clamp(48px, 7vw, 80px);
+    display: grid; grid-template-columns: 200px 1fr; gap: 32px;
+    background: var(--navy-700); border: 2px solid var(--gold); border-radius: var(--radius);
+    padding: clamp(24px, 4vw, 40px);
+  }
+  .quote__intro { text-align: right; }
+  .quote__h { font-size: clamp(1.8rem, 3vw, 2.3rem); margin-bottom: 10px; }
+  .quote__intro p { color: var(--text-muted); font-size: 1.1rem; }
+  .quote__intro a { color: var(--white); font-weight: 700; text-decoration: none; }
+  @media (max-width: 860px) {
+    .trust__grid, .quote { grid-template-columns: 1fr; }
+    .quote__intro { text-align: left; }
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import { Image } from 'astro:assets';
+import Accordion from '../Accordion.astro';
+import { whyChooseUs } from '../../data/whyChooseUs';
+import big from '../../assets/photos/tech-overhead.jpg';
+import small from '../../assets/photos/truck-rail.jpg';
+---
+<section class="section section--mid why">
+  <div class="container why__grid">
+    <div>
+      <h2 class="why__h">Why choose us?</h2>
+      <Accordion items={whyChooseUs} variant="gold" name="why" />
+    </div>
+    <div class="why__collage">
+      <Image src={big} alt="Technician adjusting garage door hardware overhead" width={700} class="why__big" loading="lazy" />
+      <Image src={small} alt="Prestige Garage Doors technician carrying a new opener rail from the truck" width={600} class="why__small" loading="lazy" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .why__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .why__h { text-transform: uppercase; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+  .why__collage { position: relative; padding-bottom: 70px; }
+  .why__collage :global(.why__big) { width: 82%; margin-left: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+  .why__collage :global(.why__small) {
+    position: absolute; left: 0; bottom: 0; width: 62%; aspect-ratio: 16 / 10; object-fit: cover;
+    border: 6px solid var(--white); border-radius: 12px; box-shadow: var(--shadow);
+  }
+  @media (max-width: 860px) { .why__grid { grid-template-columns: 1fr; } }
+</style>

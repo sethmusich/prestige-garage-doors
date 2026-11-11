@@ -57,3 +57,29 @@ test('logo and favicon present', () => {
   assert.ok(page.querySelector('link[rel="icon"]'), 'favicon link missing');
   assert.ok(page.querySelector('meta[property="og:image"]'), 'og:image missing');
 });
+
+test('home sections in Speck order', () => {
+  const page = loadPage('/');
+  const heads = page.querySelectorAll('main h1, main h2').map((h) => h.textContent.trim().toLowerCase());
+  const want = ['trusted garage door service', 'call now', 'who we are', 'our services', 'why choose us', 'rated 4.9', 'frequently asked', 'service areas'];
+  let at = -1;
+  for (const w of want) {
+    const idx = heads.findIndex((h, i) => i > at && h.includes(w));
+    assert.ok(idx > at, `"${w}" missing or out of order in: ${heads.join(' | ')}`);
+    at = idx;
+  }
+});
+
+test('home links each service', () => {
+  const hrefs = loadPage('/').querySelectorAll('a').map((a) => a.getAttribute('href'));
+  for (const s of ['tune-ups', 'repair', 'free-estimates']) {
+    assert.ok(hrefs.includes(`/prestige-garage-doors/services/${s}/`), `missing link to ${s}`);
+  }
+});
+
+test('home lists approved claims', () => {
+  const text = visibleText(loadPage('/'));
+  for (const claim of ['Licensed & Insured', 'Same-Day', 'Free Estimates']) {
+    assert.ok(text.includes(claim), `missing claim: ${claim}`);
+  }
+});

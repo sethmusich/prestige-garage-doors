@@ -1,13 +1,56 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
+import Hero from '../components/home/Hero.astro';
+import TrustStrip from '../components/home/TrustStrip.astro';
+import Welcome from '../components/home/Welcome.astro';
+import WhyChooseUs from '../components/home/WhyChooseUs.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import ReviewsSection from '../components/ReviewsSection.astro';
+import Accordion from '../components/Accordion.astro';
+import ServiceAreas from '../components/ServiceAreas.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Button from '../components/Button.astro';
+import { services } from '../data/services';
+import { faqs } from '../data/faqs';
+import { url } from '../lib/url';
 ---
 <BaseLayout
   title="Prestige Garage Doors | Garage Door Repair & Service in the Denver Metro"
   description="Locally owned garage door repair, tune-ups and free estimates on new doors across the Denver Metro, from Castle Rock to Longmont. Same-day repairs. Call (720) 295-3221."
 >
-  <PageHero
-    title="Trusted Garage Door Service Across the Denver Metro"
-    subtitle="Repairs, tune-ups & new doors — Castle Rock to Longmont"
-  />
+  <Hero />
+  <TrustStrip />
+  <Welcome />
+
+  <section class="section section--light">
+    <div class="container">
+      <SectionHeading eyebrow="What we do" title="Our Services" />
+      <div class="services-grid">
+        {services.map((s) => <ServiceCard service={s} />)}
+      </div>
+    </div>
+  </section>
+
+  <WhyChooseUs />
+  <ReviewsSection />
+
+  <section class="section section--light">
+    <div class="container faq-wrap">
+      <SectionHeading title="Frequently Asked Questions" />
+      <Accordion items={faqs.slice(0, 4).map((f) => ({ title: f.q, body: f.a }))} variant="plain" name="home-faq" />
+      <div class="faq-more"><Button href={url('/faq/')} variant="outline">More questions</Button></div>
+    </div>
+  </section>
+
+  <ServiceAreas compact />
+  <CtaBand />
 </BaseLayout>
+
+<style>
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  @media (max-width: 960px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .services-grid { grid-template-columns: 1fr; } }
+  .faq-wrap { max-width: 860px; }
+  .faq-more { text-align: center; margin-top: 32px; }
+</style>

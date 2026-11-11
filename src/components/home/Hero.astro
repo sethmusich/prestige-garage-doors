@@ -1,0 +1,45 @@
+---
+import { getImage } from 'astro:assets';
+import heroImg from '../../assets/photos/wood-door-house.jpg';
+import { SITE } from '../../config';
+import Button from '../Button.astro';
+import Icon from '../Icon.astro';
+const bgDesk = await getImage({ src: heroImg, width: 2000, format: 'webp' });
+const bgMob = await getImage({ src: heroImg, width: 900, format: 'webp' });
+---
+<section class="hero" style={`--bg-desk: url('${bgDesk.src}'); --bg-mob: url('${bgMob.src}')`}>
+  <div class="container hero__inner">
+    <p class="eyebrow">Locally owned · Denver Metro</p>
+    <h1 class="hero__h">Trusted Garage Door Service Across the Denver Metro</h1>
+    <span class="hero__rule" aria-hidden="true"></span>
+    <p class="hero__sub">Repairs, tune-ups &amp; new doors — Castle Rock to Longmont. Same-day repairs from fully stocked trucks.</p>
+    <div class="btn-row">
+      <Button href={SITE.phoneHref} variant="outline"><Icon name="phone" /> {SITE.phoneDisplay}</Button>
+      <Button href={SITE.bookingUrl} external><Icon name="calendar" /> Book Online</Button>
+    </div>
+  </div>
+</section>
+<hr class="gold-rule" />
+
+<style>
+  .hero {
+    min-height: min(82vh, 760px);
+    display: flex; align-items: center;
+    padding-block: 80px;
+    background:
+      linear-gradient(95deg, rgba(5, 11, 28, 0.95) 0%, rgba(10, 17, 40, 0.82) 45%, rgba(10, 17, 40, 0.25) 100%),
+      var(--bg-desk) center / cover no-repeat;
+  }
+  .hero__inner { max-width: var(--container); }
+  .hero__h { max-width: 760px; text-shadow: 0 3px 24px rgba(0, 0, 0, 0.55); }
+  .hero__rule { display: block; width: 180px; height: 3px; background: var(--gold); margin: 8px 0 24px; }
+  .hero__sub { max-width: 600px; font-size: clamp(1.15rem, 2.2vw, 1.4rem); margin-bottom: 32px; color: var(--text); }
+  @media (max-width: 700px) {
+    .hero {
+      min-height: 0; padding-block: 64px 56px;
+      background:
+        linear-gradient(180deg, rgba(5, 11, 28, 0.78) 0%, rgba(10, 17, 40, 0.92) 100%),
+        var(--bg-mob) center / cover no-repeat;
+    }
+  }
+</style>
