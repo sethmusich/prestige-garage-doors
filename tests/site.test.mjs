@@ -49,3 +49,11 @@ test('no visible placeholders', () => {
   }
   assert.deepEqual(problems, []);
 });
+
+test('logo and favicon present', () => {
+  const page = loadPage('/');
+  const imgs = page.querySelector('header').querySelectorAll('img');
+  assert.ok(imgs.some((i) => i.getAttribute('alt') === 'Prestige Garage Doors'), 'header logo img missing');
+  assert.ok(page.querySelector('link[rel="icon"]'), 'favicon link missing');
+  assert.ok(page.querySelector('meta[property="og:image"]'), 'og:image missing');
+});
