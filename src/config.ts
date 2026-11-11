@@ -41,6 +41,5 @@ export const NAV = [
   { label: 'Service Areas', href: '/service-areas/' },
   { label: 'Reviews', href: '/reviews/' },
   { label: 'Gallery', href: '/gallery/' },
-  { label: 'FAQ', href: '/faq/' },
   { label: 'Contact', href: '/contact/' },
 ] as const;

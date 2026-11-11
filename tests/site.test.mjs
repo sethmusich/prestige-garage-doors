@@ -61,7 +61,7 @@ test('logo and favicon present', () => {
 test('home sections in Speck order', () => {
   const page = loadPage('/');
   const heads = page.querySelectorAll('main h1, main h2').map((h) => h.textContent.trim().toLowerCase());
-  const want = ['trusted garage door service', 'call now', 'who we are', 'our services', 'why choose us', 'rated 4.9', 'frequently asked', 'service areas'];
+  const want = ['trusted garage door service', 'call now', 'who we are', 'our services', 'why choose us', 'rated 4.9', 'service areas'];
   let at = -1;
   for (const w of want) {
     const idx = heads.findIndex((h, i) => i > at && h.includes(w));
@@ -112,9 +112,15 @@ test('gallery renders photos', () => {
   assert.ok(loadPage('/gallery/').querySelectorAll('main img').length >= 6);
 });
 
-test('faq page has every question', async () => {
-  const page = loadPage('/faq/');
-  assert.ok(page.querySelectorAll('main details').length >= 8);
+test('no FAQ anywhere', async () => {
+  const { existsSync } = await import('node:fs');
+  const { DIST } = await import('./helpers.mjs');
+  assert.ok(!existsSync(DIST + 'faq'), '/faq/ page should not exist');
+  for (const route of allPages()) {
+    const page = loadPage(route);
+    assert.ok(!page.querySelectorAll('a').some((a) => (a.getAttribute('href') || '').includes('/faq/')), `${route} links to /faq/`);
+    assert.ok(!/frequently asked/i.test(visibleText(page)), `${route} has an FAQ section`);
+  }
 });
 
 test('contact form posts without JS', () => {

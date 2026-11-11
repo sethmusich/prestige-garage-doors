@@ -7,13 +7,9 @@ import WhyChooseUs from '../components/home/WhyChooseUs.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import ReviewsSection from '../components/ReviewsSection.astro';
-import Accordion from '../components/Accordion.astro';
 import ServiceAreas from '../components/ServiceAreas.astro';
 import CtaBand from '../components/CtaBand.astro';
-import Button from '../components/Button.astro';
 import { services } from '../data/services';
-import { faqs } from '../data/faqs';
-import { url } from '../lib/url';
 ---
 <BaseLayout
   title="Prestige Garage Doors | Garage Door Repair & Service in the Denver Metro"
@@ -35,14 +31,6 @@ import { url } from '../lib/url';
   <WhyChooseUs />
   <ReviewsSection limit={6} />
 
-  <section class="section section--light">
-    <div class="container faq-wrap">
-      <SectionHeading title="Frequently Asked Questions" />
-      <Accordion items={faqs.slice(0, 4).map((f) => ({ title: f.q, body: f.a }))} variant="plain" name="home-faq" />
-      <div class="faq-more"><Button href={url('/faq/')} variant="outline">More questions</Button></div>
-    </div>
-  </section>
-
   <ServiceAreas compact />
   <CtaBand />
 </BaseLayout>
@@ -51,6 +39,4 @@ import { url } from '../lib/url';
   .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   @media (max-width: 960px) { .services-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 620px) { .services-grid { grid-template-columns: 1fr; } }
-  .faq-wrap { max-width: 860px; }
-  .faq-more { text-align: center; margin-top: 32px; }
 </style>

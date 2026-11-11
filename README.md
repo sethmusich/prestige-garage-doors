@@ -22,7 +22,6 @@ Pushing to `main` deploys automatically (`.github/workflows/deploy.yml`). One-ti
 | Phone, booking link, Google rating, socials, form key | `src/config.ts` |
 | Services text | `src/data/services.ts` |
 | City list | `src/data/cities.ts` |
-| FAQ | `src/data/faqs.ts` |
 | Reviews shown on the site | `src/data/reviews.ts` |
 | Photos | `src/assets/photos/` |
 | Gallery | drop images into `src/assets/gallery/` — they appear automatically |
