@@ -37,5 +37,5 @@ The contact form posts to [Web3Forms](https://web3forms.com). Kevin creates a fr
 ## Switching to a custom domain
 
 1. In `astro.config.mjs`, set `SITE` to the domain (e.g. `https://www.example.com`) and `BASE` to `'/'`.
-2. Add `public/CNAME` containing the bare domain.
+2. Add `public/CNAME` containing the bare domain, and update the Sitemap URL in `public/robots.txt`.
 3. Point DNS at GitHub Pages and set the domain in repo Settings → Pages.

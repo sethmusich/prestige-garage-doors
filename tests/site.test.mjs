@@ -155,3 +155,37 @@ test('reviews render from data', () => {
   assert.equal(loadPage('/').querySelectorAll('main figure.review').length, 6, 'home shows 6 reviews');
   assert.ok(visibleText(loadPage('/reviews/')).includes('Jake H.'));
 });
+
+test('local business schema', () => {
+  const blocks = loadPage('/').querySelectorAll('script[type="application/ld+json"]').map((s) => JSON.parse(s.textContent));
+  const biz = blocks.find((b) => b['@type'] === 'HomeAndConstructionBusiness');
+  assert.ok(biz, 'LocalBusiness schema missing');
+  assert.equal(biz.telephone, '+1-720-295-3221');
+  assert.equal(String(biz.aggregateRating.ratingValue), '4.9');
+  assert.equal(String(biz.aggregateRating.reviewCount), '53');
+  const areas = biz.areaServed.map((a) => (typeof a === 'string' ? a : a.name));
+  assert.ok(areas.some((a) => a.includes('Castle Rock')) && areas.some((a) => a.includes('Longmont')));
+  assert.ok(!biz.address || !biz.address.streetAddress, 'should not list a street address');
+});
+
+test('unique titles and descriptions', () => {
+  const titles = new Map();
+  for (const route of allPages()) {
+    const page = loadPage(route);
+    const t = page.querySelector('title')?.textContent.trim();
+    const d = page.querySelector('meta[name="description"]')?.getAttribute('content');
+    assert.ok(t, `${route} missing title`);
+    assert.ok(d, `${route} missing description`);
+    assert.ok(!titles.has(t), `duplicate title "${t}" on ${route} and ${titles.get(t)}`);
+    titles.set(t, route);
+  }
+});
+
+test('sitemap excludes thanks', async () => {
+  const { readFileSync, existsSync } = await import('node:fs');
+  const { DIST } = await import('./helpers.mjs');
+  assert.ok(existsSync(DIST + 'sitemap-index.xml'));
+  const xml = readFileSync(DIST + 'sitemap-0.xml', 'utf8');
+  assert.ok(xml.includes('/prestige-garage-doors/services/repair/'));
+  assert.ok(!xml.includes('/thanks/'));
+});

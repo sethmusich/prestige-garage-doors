@@ -1,0 +1,27 @@
+---
+// Service-area business: no street address on purpose.
+import { SITE } from '../config';
+import { cities } from '../data/cities';
+import { services } from '../data/services';
+const home = new URL(import.meta.env.BASE_URL, Astro.site).href;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HomeAndConstructionBusiness',
+  '@id': `${home}#business`,
+  name: SITE.name,
+  url: home,
+  telephone: SITE.phoneSchema,
+  image: new URL(`${import.meta.env.BASE_URL.replace(/\/$/, '')}/og.png`, Astro.site).href,
+  founder: { '@type': 'Person', name: SITE.owner },
+  areaServed: cities.map((c) => ({ '@type': 'City', name: `${c}, CO` })),
+  address: { '@type': 'PostalAddress', addressRegion: 'CO', addressCountry: 'US' },
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: SITE.rating, reviewCount: SITE.reviewCount, bestRating: 5 },
+  sameAs: [SITE.instagram, SITE.facebook, SITE.tiktok].filter(Boolean),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Garage door services',
+    itemListElement: services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.short } })),
+  },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
