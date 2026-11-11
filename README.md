@@ -2,7 +2,7 @@
 
 Marketing site for Prestige Garage Doors (Denver Metro, Castle Rock to Longmont). Built with [Astro](https://astro.build), deployed to GitHub Pages.
 
-Live (until the custom domain is set up): https://sethmusich.github.io/prestige-garage-doors/
+Live: https://www.prestigegaragedoorsco.com/ (DNS points at GitHub Pages; `public/CNAME` holds the domain)
 
 ## Run it
 

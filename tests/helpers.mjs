@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { parse } from 'node-html-parser';
 
 export const DIST = new URL('../dist/', import.meta.url).pathname;
-export const BASE = '/prestige-garage-doors';
+export const BASE = '';
 
 /** Parsed HTML for a route like '/' or '/services/repair/'. */
 export function loadPage(route) {

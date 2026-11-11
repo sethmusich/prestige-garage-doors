@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// When the custom domain is ready: set SITE to it, BASE to '/', and add public/CNAME.
-const SITE = 'https://sethmusich.github.io';
-const BASE = '/prestige-garage-doors';
+// Custom domain. To go back to the GitHub test URL: SITE = 'https://sethmusich.github.io', BASE = '/prestige-garage-doors', delete public/CNAME.
+const SITE = 'https://www.prestigegaragedoorsco.com';
+const BASE = '/';
 
 export default defineConfig({
   site: SITE,
